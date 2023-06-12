@@ -1,12 +1,20 @@
 
 IsAttackOnGoing = false
   
-  
-  RegisterCommand("airstrike", function(source,args,raw)
-  if args[1] == "light" or args[1] == "medium" or args[1] == "heavy" or args[1] == "armageddon" then
-    TriggerEvent("Airstrike:Execute",GetEntityCoords(PlayerPedId()).x,GetEntityCoords(PlayerPedId()).y,GetEntityCoords(PlayerPedId()).z,args[1])
-  end
-  end, false)
+AddEventHandler("menu:setup", function()
+	TriggerEvent("menu:registerModuleMenu", "AIStrikeV", addModuleSubMenus, nil)
+end)
+
+function addModuleSubMenus(id)
+	TriggerEvent("menu:addModuleItem", id, "Light Airstrike", nil, false, function(id, state) airstrikeTriggerEvent("light") end)
+	TriggerEvent("menu:addModuleItem", id, "Medium Airstrike", nil, false, function(id, state) airstrikeTriggerEvent("medium") end)
+	TriggerEvent("menu:addModuleItem", id, "Heavy Airstrike", nil, false, function(id, state) airstrikeTriggerEvent("heavy") end)
+	--TriggerEvent("menu:addModuleItem", id, "Armageddon Airstrike", nil, false, function(id, state) airstrikeTriggerEvent("armageddon") end)
+end
+
+function airstrikeTriggerEvent(type)
+	TriggerEvent("Airstrike:Execute",GetEntityCoords(PlayerPedId()).x,GetEntityCoords(PlayerPedId()).y,GetEntityCoords(PlayerPedId()).z,type)
+end
   
   RegisterNetEvent("Airstrike:Execute")
   
